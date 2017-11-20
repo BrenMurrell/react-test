@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
-
+{
+  /* none of this is ready for production yet  - left here to show thought process for future dev */
+}
 
 class Editor extends Component {
   updateItem() {
     alert('to do: write update code');
+  }
+  cancel(editorMessage) {
+    var dialog = document.querySelector('dialog');
+    dialog.close();
   }
   render() {
     return (
@@ -24,7 +30,7 @@ class Editor extends Component {
           </div>
           <div className="mdl-dialog__actions">
             <button type="button" className="mdl-button" onClick={() => this.updateItem()}>Update</button>
-            <button type="button" className="mdl-button close">Cancel</button>
+            <button type="button" className="mdl-button close" onClick={() => this.cancel(this.props.editorMessage)}>Cancel</button>
           </div>
         </dialog>
         }

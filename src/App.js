@@ -3,18 +3,7 @@ import update from 'immutability-helper';
 import Editor from './components/Editor';
 import fire from './fire';
 
-//import logo from './logo.svg';
 import './App.css';
-
-// function MessageEditor(props) {
-//   const hasMessage = props.state.editorMessage;
-//   if(hasMessage) {
-//     console.log('test');
-//   } else {
-//     console.log('broke');
-//   }
-// }
-
 
 class App extends Component {
   constructor(props) {
@@ -34,10 +23,6 @@ class App extends Component {
     });
     this.setState({messages: newData});
 
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return true;
   }
   componentWillMount() {
     /* create ref to messages in Firebase database */
@@ -82,25 +67,33 @@ class App extends Component {
     }
     fire.database().ref('messages').push (message);
     this.inputEl.value = '';
+    var dialog = document.querySelector('dialog');
+    dialog.close();
   }
   deleteMessage(message) {
     fire.database().ref('messages').child(message.id).remove();
   }
-  editMessage(message) {
-    //alert('add editing functions here');
+  // TODO: Add following back in eventually
+  // editMessage(message) {
+  //   this.setState({editorMessage: message});
+  //   var dialog = document.querySelector('dialog');
+  //   dialog.showModal();    
+  // }
+  showAddDialog() {
     var dialog = document.querySelector('dialog');
-    this.setState({editorMessage: message});
-    dialog.showModal();    
+    dialog.showModal();
   }
   toggleComplete(message) {
-    console.log('toggled: ', message);
     fire.database().ref('messages/' + message.id).set({
       active: !message.text.active,
       message: message.text.message
     })
 
   }
-  
+  cancel() {
+    var dialog = document.querySelector('dialog');
+    dialog.close();
+  }
 
   render() {
     //set task class
@@ -110,20 +103,29 @@ class App extends Component {
     return (
       
       <div className="appContent">
-        <Editor editorMessage={this.state.editorMessage} />
-        {this.state.editorMessage !== "" && 
-          <button id="show-dialog" type="button" className="mdl-button" onClick={() => this.openDialog()}>Show Dialog</button>
-        }
-        <form onSubmit={this.addMessage.bind(this)}>
-          <div className="inputForm">
-            <div className="mdl-textfield mdl-js-textfield">
-              <input className="mdl-textfield__input" type="text" ref={ el => this.inputEl = el } />
-              <label className="mdl-textfield__label" htmlFor="sample1">Text...</label>
+        { /*  TODO: add this back in when we're ready to edit
+          <Editor editorMessage={this.state.editorMessage} />
+        */ }
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect button--add" onClick={()=>this.showAddDialog()}>
+          <i class="material-icons">add</i>
+        </button>
+        <dialog className="mdl-dialog">
+          <h4 className="mdl-dialog__title">Add new task</h4>
+          <form  onSubmit={this.addMessage.bind(this)}>
+            <div className="mdl-dialog__content">
+                  <div className="mdl-textfield mdl-js-textfield">
+                    <input className="mdl-textfield__input" type="text" ref={ el => this.inputEl = el } />
+                    <input type="hidden" name="active" value="" ref={(input) => { this.active = input }} />            
+                    <label className="mdl-textfield__label" htmlFor="sample1">Task description...</label>
+                  </div>
             </div>
-            <input type="hidden" name="active" value="" ref={(input) => { this.active = input }} />
-            <button type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Add new task</button>
-          </div>
-        </form>
+            <div className="mdl-dialog__actions">
+              {/* <button type="button" className="mdl-button" onClick={() => this.updateItem()}>Update</button> */}
+              <button type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Add new task</button>
+              <button type="button" className="mdl-button close" onClick={() => this.cancel()}>Cancel</button>
+            </div>
+          </form>
+        </dialog>
         <table className="tasks mdl-data-table mdl-js-data-table mdl-shadow--2dp">
           <thead>
             <tr>
@@ -142,17 +144,17 @@ class App extends Component {
                   <td className="mdl-data-table__cell--non-numeric">
                     {message.text.message} 
                   </td>
-                  <td className="mdl-data-table__cell--non-numeric">                
-                    <button className="btn--edit mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab material-icons" onClick={() => { this.editMessage(message) }}>mode_edit</button>
+                  <td className="mdl-data-table__cell--non-numeric">
+                    { /* TODO: add this back in when edit functionality is written
+                      <button className="btn--edit mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab material-icons" onClick={() => { this.editMessage(message) }}>mode_edit</button>
+                    */ }
                     <button className="btn--delete mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored material-icons" onClick={() => { this.deleteMessage(message) }}>remove</button>
                   </td>
-                    
                 </tr> 
               )   
             }
           </tbody>
         </table>
-        
       </div>
     );
   }
