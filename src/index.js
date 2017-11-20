@@ -12,6 +12,6 @@ var dialog = document.querySelector('dialog');
 //var showDialogButton = document.querySelector('#show-dialog');
 
 
-dialog.querySelector('.close').addEventListener('click', function() {
-  dialog.close();
-});
+// dialog.querySelector('.close').addEventListener('click', function() {
+//   dialog.close();
+// });

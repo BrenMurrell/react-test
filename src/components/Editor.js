@@ -6,7 +6,12 @@ class Editor extends Component {
   updateItem() {
     alert('to do: write update code');
   }
+  cancel() {
+    var dialog = document.querySelector('dialog');
+    dialog.close();
+  }
   render() {
+    const editorMessage = this.props.editorMessage
     return (
       <div className="editor">
         {
@@ -16,7 +21,7 @@ class Editor extends Component {
             {this.props.editorMessage !== "" && 
               <form>
                 <div className="mdl-textfield mdl-js-textfield">
-                  <input className="mdl-textfield__input" type="text" defaultValue={this.props.editorMessage.text.message} />
+                  <input className="mdl-textfield__input" type="text" defaultValue={editorMessage.text.message} />
                   <label className="mdl-textfield__label" htmlFor="sample1"></label>
                 </div>
               </form>
@@ -24,7 +29,7 @@ class Editor extends Component {
           </div>
           <div className="mdl-dialog__actions">
             <button type="button" className="mdl-button" onClick={() => this.updateItem()}>Update</button>
-            <button type="button" className="mdl-button close">Cancel</button>
+            <button type="button" className="mdl-button close" onClick={() => this.cancel()}>Cancel</button>
           </div>
         </dialog>
         }
