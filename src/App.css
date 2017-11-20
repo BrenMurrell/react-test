@@ -34,6 +34,7 @@ body {
 .tasks { 
   margin: 0 auto;
   width: 100%;
+  margin-bottom: 6em; /* padding to allow for button */
 }
 .task__done, .task__delete { width: 80px;}
 .btn--edit {
@@ -43,10 +44,9 @@ tr.complete td {
   text-decoration: line-through;
   color: #ccc;
 }
-.inputForm {
+.button--add {
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
-  background: #eee;
+  bottom: 0.5em;
+  left: 0.5em;
+  z-index: 2;
 }

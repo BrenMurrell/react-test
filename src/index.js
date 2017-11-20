@@ -6,12 +6,3 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
-
-//global functions for dialogs
-var dialog = document.querySelector('dialog');
-//var showDialogButton = document.querySelector('#show-dialog');
-
-
-// dialog.querySelector('.close').addEventListener('click', function() {
-//   dialog.close();
-// });
